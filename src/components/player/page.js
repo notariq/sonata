@@ -2,6 +2,7 @@ import React from 'react'
 import { FaRegPauseCircle } from "react-icons/fa";
 import { CgPlayTrackNext } from "react-icons/cg";
 
+
 const Player = () => {
     return (
       <div className='h-[10%] bg-black flex justify-between items-center text-white px-4 p-5 border-t  border-gray-800'>

@@ -1,5 +1,7 @@
 import "./globals.css";
 import Sidebar from "@/components/sidebar/page";
+import Player from "@/components/player/page"
+
 
 export const metadata = {
   title: "SONATA",
@@ -9,10 +11,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="flex">
-        <Sidebar />
-        <div>
-          {children}
+      <body>
+        <div className="flex">
+          <Sidebar />
+          <div className="px-16 py-10">
+            {children}
+          </div>
+        </div>
+        <div className="fixed bottom-0 w-full">
+          <Player />
         </div>
       </body>
     </html>

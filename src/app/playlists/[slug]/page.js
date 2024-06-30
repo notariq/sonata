@@ -21,7 +21,7 @@ const songs = [
   // Add more songs as needed
 ];
 
-const Favorites = () => {
+const Playlists = ( {params} ) => {
   const [favorites, setFavorites] = useState({});
 
   const toggleFavorite = (id) => {
@@ -33,7 +33,7 @@ const Favorites = () => {
 
   return (
     <div className="container mx-auto w-screen">
-      <h1 className="text-2xl font-bold mb-4">Favorites</h1>
+      <h1 className="text-2xl font-bold mb-4">Playlist {params.slug}</h1>
       <div className="space-y-4">
         {songs.map((song) => (
           <div
@@ -63,4 +63,4 @@ const Favorites = () => {
   );
 };
 
-export default Favorites;
+export default Playlists;

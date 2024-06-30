@@ -1,14 +1,10 @@
-import Player from "@/components/player/page"
+import playlistCard from "@/components/playlist-card/page";
 
-export default function Home() {
+export default async function Page() {
   return (
     <div className="">
-      <div>
-        <h1>Home</h1>
-      </div>
-      <div className="fixed bottom-0 w-full">
-        <Player />
-      </div>
+      <playlistCard />
+      <h1>Music List</h1>
     </div>
-  )
+  );
 }
