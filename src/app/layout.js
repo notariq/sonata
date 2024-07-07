@@ -11,15 +11,19 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-gradient-to-br from-gray-800 to-gray-600 text-white">
         <div className="flex">
           <Sidebar />
-          <div className="px-16 py-10">
+          <div className="px-16 pt-10 pb-[10%] h-full w-full relative">
             {children}
+            <footer className="mt-10 text-gray-400 font-medium border-t border-gray-600 py-5 px-2 h-auto">
+              <p>notariq</p>
+              <p>2024</p>
+            </footer>
           </div>
         </div>
         <div className="fixed bottom-0 w-full">
-          <Player />
+
         </div>
       </body>
     </html>

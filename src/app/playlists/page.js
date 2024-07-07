@@ -1,16 +1,13 @@
-import Link from "next/link";
-
 const Playlists = () => {
-return (
+  const login = {
+    "user" : "notariq"
+  }
+
+  return (
     <div className="container">
-      <h1>Playlists will be shown here</h1>
-      <div className="cursor">
-        <Link href="/playlists/1">
-          <h2>Playlist 1</h2>
-        </Link>
-      </div>
+      <h1 className="text-2xl font-bold mb-4">{login.user}'s Playlists</h1>
     </div>
-  )
+  );
 };
 
 export default Playlists;

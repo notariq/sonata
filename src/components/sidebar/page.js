@@ -12,12 +12,12 @@ import { TbUser } from "react-icons/tb";
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   return (
-    <div className={`${open ? 'w-64' : 'w-20'} duration-300 min-h-screen bg-black text-white flex-col relative`}>
+    <div className={`${open ? 'w-64' : 'w-20'} duration-300 min-h-screen bg-black text-white flex-col left-0 bottom-0 top-0`}>
       <GiHamburgerMenu 
         className='bg-gray-700 absolute cursor-pointer rounded-full w-9 h-9 p-1 top-4 left-5'
         onClick={() => setOpen(!open)}
       />
-      <div className={`${!open && "scale-0"} p-4 text-2xl font-bold text-center mb-10`}>
+      <div className={`${!open && "scale-0"} p-4 text-2xl font-bold text-center mb-10 pl-7`}>
         <Link href="/">SONATA</Link>
       </div>
       <nav className="flex-1 p-4">

@@ -2,7 +2,7 @@
 
 // components/Search.js
 import { useState, useEffect } from 'react';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { FaSearch, FaHeart, FaRegHeart } from 'react-icons/fa';
 
 const Search = () => {
   const [query, setQuery] = useState('');
@@ -36,30 +36,29 @@ const Search = () => {
   };
 
   return (
-    <div className="container mx-auto p-8 w-screen">
-      <h1 className="text-2xl font-bold mb-4">Search Music</h1>
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        className="w-full p-2 mb-4 border border-gray-300 rounded-lg"
-        placeholder="Search by title or artist"
-      />
+    <div className="container mx-auto w-screen">
+      <div className="relative w-full mb-4">
+        <span className="absolute top-3.5 left-0 flex items-center pl-3">
+          <FaSearch className="text-gray-500" />
+        </span>
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="w-full p-2 pl-10 mb-4 border border-gray-300 rounded-lg text-gray-500"
+          placeholder="Search by title or artist"
+        />
+      </div>
       <div className="space-y-4">
         {filteredSongs.map((song) => (
-          <div
-            key={song._id}
-            className="flex items-center p-4 bg-white shadow-md rounded-lg"
-          >
+          <div key={song._id} className="flex items-center p-4 bg-white shadow-md rounded-lg">
+            <img src={song.songPicturePath} className="h-16 w-16 object-cover rounded" alt={`${song.songTitle} cover`} />
             <div className="ml-4 flex-1">
               <div className="text-sm text-gray-500">{song.artist}</div>
-              <div className="text-lg font-medium">{song.songTitle}</div>
+              <div className="text-lg font-medium text-gray-500">{song.songTitle}</div>
             </div>
-            <div className="text-gray-500">{Math.floor(song.songDuration / 60)}:{('0' + (song.songDuration % 60)).slice(-2)}</div>
-            <button
-              onClick={() => toggleFavorite(song._id)}
-              className="ml-4 focus:outline-none"
-            >
+            <div className="text-sm text-gray-500">{song.songDuration}</div>
+            <button onClick={() => toggleFavorite(song._id)} className="ml-4 focus:outline-none">
               {favorites[song._id] ? (
                 <FaHeart className="text-red-500" />
               ) : (
