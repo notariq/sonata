@@ -1,13 +1,11 @@
 'use client'
 
-// components/Search.js
 import { useState, useEffect } from 'react';
-import { FaSearch, FaHeart, FaRegHeart } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 
 const Search = () => {
   const [query, setQuery] = useState('');
   const [songs, setSongs] = useState([]);
-  const [favorites, setFavorites] = useState({});
 
   useEffect(() => {
     const fetchSongs = async () => {
@@ -28,13 +26,6 @@ const Search = () => {
     song.artist.toLowerCase().includes(query.toLowerCase())
   );
 
-  const toggleFavorite = (id) => {
-    setFavorites((prevFavorites) => ({
-      ...prevFavorites,
-      [id]: !prevFavorites[id],
-    }));
-  };
-
   return (
     <div className="container mx-auto w-screen">
       <div className="relative w-full mb-4">
@@ -51,20 +42,13 @@ const Search = () => {
       </div>
       <div className="space-y-4">
         {filteredSongs.map((song) => (
-          <div key={song._id} className="flex items-center p-4 bg-white shadow-md rounded-lg">
+          <div key={song._id}   className="flex items-center p-4 bg-white shadow-md rounded-lg">
             <img src={song.songPicturePath} className="h-16 w-16 object-cover rounded" alt={`${song.songTitle} cover`} />
             <div className="ml-4 flex-1">
               <div className="text-sm text-gray-500">{song.artist}</div>
               <div className="text-lg font-medium text-gray-500">{song.songTitle}</div>
             </div>
             <div className="text-sm text-gray-500">{song.songDuration}</div>
-            <button onClick={() => toggleFavorite(song._id)} className="ml-4 focus:outline-none">
-              {favorites[song._id] ? (
-                <FaHeart className="text-red-500" />
-              ) : (
-                <FaRegHeart className="text-gray-500" />
-              )}
-            </button>
           </div>
         ))}
       </div>

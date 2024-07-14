@@ -1,71 +1,41 @@
 'use client'
 
-import React from 'react'
-import { useState, useRef } from 'react';
+import React from 'react';
+import { MdSkipPrevious, MdSkipNext } from "react-icons/md";
+import { useAudio } from '@/app/audioContext';
 
-import { FaRegPauseCircle } from "react-icons/fa";
-import { FaRegPlayCircle } from "react-icons/fa";
-import { MdSkipPrevious } from "react-icons/md";
-import { MdSkipNext } from "react-icons/md";
-
-import MusicPlayer from './api';
-
-
-const Player = () => {
-    const [currentMusicDetails, setCurrentMusicDetails] = useState({
-        songName: 'NaN',
-        songArtist: 'NaN',
-        songSrc: '',
-      })
-    const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-    const [audioProgress, setAudioProgress] = useState(0);
-    const [musicCurrentTime, setMusicCurrentTime] = useState('NaN : NaN');
-    const [musicTotalLength, setMusicTotalLength] = useState('NaN : NaN');
-
-    const audioRef = useRef(null);
+const Player = ({ imageSrc }) => {
+    const { audioSrc, nextSong, previousSong } = useAudio();
 
     return (
-      <div className='h-[10%] bg-black flex justify-between items-center text-white px-4 p-5 border-t  border-gray-800'>
-        <div className='hidden lg:flex items-center gap-4'>
-            <img className='w-12 bg-white border-gray-800'/>
-            <div>
-                <p>{currentMusicDetails.songName}</p>
-                <p>{currentMusicDetails.songArtist}</p>
+        <div className='h-[10%] bg-black flex justify-between items-center text-white px-4 p-5 border-t border-gray-800'>
+            <div className='hidden lg:flex items-center gap-4'>
+                <img 
+                    className='w-12 h-12 bg-gray-100 border border-gray-800' 
+                    src={imageSrc} 
+                    alt='Placeholder' 
+                    style={{ backgroundColor: 'gray' }}
+                />
+                <div>
+                    <p>Now Playing</p>
+                    <p>{audioSrc}</p>
+                </div>
             </div>
-        </div>
-        <div className='flex flex-col items-center gap-1 m-auto'>
-            <div className='flex gap-8 items-center justify-center mb-3'>
-                <span className='cursor-pointer text-2xl' >
-                    <MdSkipPrevious />
-                </span>
-                <span className='cursor-pointer text-2xl'>
-                    {isAudioPlaying ? <FaRegPauseCircle /> : <FaRegPlayCircle />}
-                </span>
-                <span className='cursor-pointer text-2xl'>
-                    <MdSkipNext />
-                </span>
-            </div>
-            <div className='flex items-center gap-5'>
-                <p>{musicCurrentTime}</p>
-                    <div className="w-[60vw] max-w-[500px] bg-gray-300 rounded-full cursor-pointer relative px-5 py-1">
-                        <input
-                            type="range"
-                            name="musicProgressBar"
-                            value={audioProgress}
-                            className="w-full h-2 rounded-full outline-none bg-transparent"
-                            style={{
-                            background: 'linear-gradient(to right, #4CAF50, #4CAF50)',
-                            backgroundSize: '50% 100%',
-                            backgroundPosition: 'center',
-                            }}
-                        />
-                        <MusicPlayer src="/storage/Lamp-ForLover/1.mp3" startTime={10} endTime={20} />
+            <div className='flex flex-col items-center gap-1 m-auto'>
+                <div className='flex gap-8 items-center justify-center my-2'>
+                    <span className='cursor-pointer text-2xl' onClick={previousSong}>
+                        <MdSkipPrevious />
+                    </span>
+                    <div className='w-[60vw] max-w-[500px] bg-gray-100 rounded-full cursor-pointer relative px-5 py-1 flex items-center justify-between'>
+                        <audio controls className="w-full" src={audioSrc} />
                     </div>
-                <p>{musicTotalLength}</p>
+                    <span className='cursor-pointer text-2xl' onClick={nextSong}>
+                        <MdSkipNext />
+                    </span>
+                </div>
             </div>
         </div>
-      </div>
     );
-  };
-  
-  export default Player;
+};
+
+export default Player;

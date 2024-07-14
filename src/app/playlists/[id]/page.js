@@ -1,13 +1,18 @@
 'use client'
-import MusicCard from "@/components/music-card/page";
+
+import { useAudio } from "@/app/audioContext";
 import React, { useState, useEffect } from "react";
 
 const Playlists = ({ params }) => {
+  const { playAudio } = useAudio();
+
   const [playlist, setPlaylist] = useState(null);
-  const [favorites, setFavorites] = useState({});
-  const [showAddMusicModal, setShowAddMusicModal] = useState(false);
+  const [songs, setSongs] = useState([]);
   const [availableSongs, setAvailableSongs] = useState([]);
   const [selectedSong, setSelectedSong] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showAddMusicModal, setShowAddMusicModal] = useState(false);
 
   useEffect(() => {
     const fetchPlaylist = async () => {
@@ -15,8 +20,26 @@ const Playlists = ({ params }) => {
         const response = await fetch(`http://localhost:8080/playlist/${params.id}`);
         const data = await response.json();
         setPlaylist(data);
+
+        if (data.songs.length > 0) {
+          const songResponse = await fetch('http://localhost:8080/song/batch', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ songIds: data.songs }),
+          });
+
+          const songData = await songResponse.json();
+          setSongs(songData);
+        } else {
+          setSongs([]);
+        }
       } catch (error) {
-        console.error('Error fetching playlist:', error);
+        console.error('Error fetching data:', error);
+        setError('Error fetching data');
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -34,44 +57,61 @@ const Playlists = ({ params }) => {
     fetchAvailableSongs();
   }, [params.id]);
 
-  const toggleFavorite = (id) => {
-    setFavorites((prevFavorites) => ({
-      ...prevFavorites,
-      [id]: !prevFavorites[id],
-    }));
-  };
-
-  const handleAddMusic = () => {
+  const handleAddMusic = async () => {
     if (selectedSong) {
-      // Add selectedSong to the playlist.songs array
-      const updatedSongs = [...playlist.songs, selectedSong];
-      setPlaylist({ ...playlist, songs: updatedSongs });
-      setSelectedSong(null); // Reset selected song
-      setShowAddMusicModal(false); // Close modal after adding music
+      try {
+        const response = await fetch(`http://localhost:8080/playlist/${params.id}/add-music`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ musicId: selectedSong._id }),
+        });
+
+        if (response.ok) {
+          const updatedPlaylist = await response.json();
+          setPlaylist(updatedPlaylist);
+
+          const updatedSongs = [...songs, selectedSong];
+          setSongs(updatedSongs);
+
+          setSelectedSong(null);
+          setShowAddMusicModal(false);
+        } else {
+          console.error('Error adding music to playlist');
+        }
+      } catch (error) {
+        console.error('Error adding music:', error);
+      }
     }
   };
 
-  if (!playlist || !availableSongs) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return(
+      <div className='flex items-center justify-center'>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>{error}</div>;
   }
 
   return (
     <div className="container w-screen">
-      <h1 className="text-2xl font-bold mb-4">Playlist {playlist.playlistName}</h1>
+      <h1 className="text-2xl font-bold mb-4">{playlist.playlistName}</h1>
 
-      {/* Button to toggle modal */}
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         onClick={() => setShowAddMusicModal(true)}
       >
-        Add Music
+        + Add Music
       </button>
 
-      {/* Modal for adding music */}
       {showAddMusicModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
           <div className="bg-white p-8 rounded shadow-md">
-            <h2 className="text-lg font-bold mb-4">Add New Music</h2>
             <select
               value={selectedSong ? selectedSong._id : ''}
               onChange={(e) => {
@@ -80,9 +120,9 @@ const Playlists = ({ params }) => {
               }}
               className="border p-2 mb-2 w-full text black"
             >
-              <option value="" className="text-black">Select a Song</option>
+              <option value="" className="text-black">--Select a Song--</option>
               {availableSongs.map(song => (
-                <option className="text-black" key={song._id} value={song._id}>{song.title} - {song.artist}</option>
+                <option className="text-black" key={song._id} value={song._id}>{song.songTitle} - {song.artist}</option>
               ))}
             </select>
             <div className="flex justify-end">
@@ -104,7 +144,16 @@ const Playlists = ({ params }) => {
       )}
 
       <div className="space-y-4 mt-4">
-        <MusicCard songs={playlist.songs} favorites={favorites} toggleFavorite={toggleFavorite} />
+        {songs.map((song) => (
+          <div key={song._id} className="flex items-center p-4 bg-white shadow-md rounded-lg cursor-pointer" onClick={playAudio(song.songPath)}>
+            <img src={song.songPicturePath} className="h-16 w-16 object-cover rounded" alt={`${song.songTitle} cover`} />
+            <div className="ml-4 flex-1">
+              <div className="text-sm text-gray-500">{song.artist}</div>
+              <div className="text-lg font-medium text-gray-500">{song.songTitle}</div>
+            </div>
+            <div className="text-sm text-gray-500">{song.songDuration}</div>
+          </div>
+        ))}
       </div>
     </div>
   );
