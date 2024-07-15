@@ -7,38 +7,27 @@ const AudioContext = createContext();
 export const AudioProvider = ({ children }) => {
     const [audioSrc, setAudioSrc] = useState(null);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [currentIndex, setCurrentIndex] = useState(null);
-    const [songs, setSongs] = useState([]);
+    const [currentSong, setCurrentSong] = useState(null);
 
-    const playAudio = (src, index, songsList) => {
+    const playAudio = (src, song) => {
         setAudioSrc(src);
+        setCurrentSong(song);
         setIsPlaying(true);
     };
 
-    const nextSong = () => {
-        if (songs.length > 0 && currentIndex !== null) {
-            const nextIndex = (currentIndex + 1) % songs.length;
-            const nextSong = songs[nextIndex];
-            playAudio(nextSong.audioSrc, nextIndex, songs);
-        }
-    };
-
-    const previousSong = () => {
-        if (songs.length > 0 && currentIndex !== null) {
-            const prevIndex = (currentIndex - 1 + songs.length) % songs.length;
-            const prevSong = songs[prevIndex];
-            playAudio(prevSong.audioSrc, prevIndex, songs);
-        }
+    const stopAudio = () => {
+        setAudioSrc(null);
+        setCurrentSong(null);
+        setIsPlaying(false);
     };
 
     return (
         <AudioContext.Provider value={{
-            audioSrc, 
-            isPlaying, 
-            playAudio, 
-            nextSong, 
-            previousSong,
-            currentIndex,
+            audioSrc,
+            isPlaying,
+            currentSong,
+            playAudio,
+            stopAudio
         }}>
             {children}
         </AudioContext.Provider>

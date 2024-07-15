@@ -87,7 +87,7 @@ const Playlists = ({ params }) => {
   };
 
   if (loading) {
-    return(
+    return (
       <div className='flex items-center justify-center'>
         <p>Loading...</p>
       </div>
@@ -118,7 +118,7 @@ const Playlists = ({ params }) => {
                 const selected = availableSongs.find(song => song._id === e.target.value);
                 setSelectedSong(selected);
               }}
-              className="border p-2 mb-2 w-full text black"
+              className="border p-2 mb-2 w-full text-black"
             >
               <option value="" className="text-black">--Select a Song--</option>
               {availableSongs.map(song => (
@@ -145,13 +145,12 @@ const Playlists = ({ params }) => {
 
       <div className="space-y-4 mt-4">
         {songs.map((song) => (
-          <div key={song._id} className="flex items-center p-4 bg-white shadow-md rounded-lg cursor-pointer" onClick={playAudio(song.songPath)}>
+          <div key={song._id} className="flex items-center p-4 bg-white shadow-md rounded-lg cursor-pointer" onClick={() => playAudio(song.songPath, song)}>
             <img src={song.songPicturePath} className="h-16 w-16 object-cover rounded" alt={`${song.songTitle} cover`} />
             <div className="ml-4 flex-1">
               <div className="text-sm text-gray-500">{song.artist}</div>
               <div className="text-lg font-medium text-gray-500">{song.songTitle}</div>
-            </div>
-            <div className="text-sm text-gray-500">{song.songDuration}</div>
+            </div>  
           </div>
         ))}
       </div>

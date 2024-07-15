@@ -12,7 +12,6 @@ export default function Page() {
       try {
         const response = await fetch('http://localhost:8080/playlist/');
         const data = await response.json();
-        const filteredData = data.filter(playlist => playlist.createdBy === 'sonata');
         setPlaylists(data);
       } catch (error) {
         console.error('Error fetching playlists:', error);

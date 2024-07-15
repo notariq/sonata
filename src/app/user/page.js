@@ -2,8 +2,8 @@ import React from 'react';
 
 function User({ username = "test", email = "test@mail.com" }) {
   return (
-    <div className="p-6 rounded-lg shadow-xl w-full flex items-center bg-gray-800 gap-6">
-      <div className="bg-gray-700 p-6 rounded text-6xl">
+    <div className="p-6 rounded-lg shadow-xl w-full flex flex-col sm:flex-row items-center bg-gray-800 gap-6">
+      <div className="bg-gray-700 p-6 rounded text-6xl flex-shrink-0">
         <p>🎸</p>
       </div>
       <div className='w-full'>
@@ -16,10 +16,9 @@ function User({ username = "test", email = "test@mail.com" }) {
           <p className="text-lg text-gray-300 bg-gray-700 p-2 rounded">{email}</p>
         </div>
       </div>
-      <div className='flex'>
+      <div className='flex-shrink-0'>
         <button 
           className="bg-red-600 text-white py-2 px-4 rounded shadow hover:bg-red-700"
-          //onClick={}
         >
           Logout
         </button>

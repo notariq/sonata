@@ -27,9 +27,9 @@ const Search = () => {
   );
 
   return (
-    <div className="container mx-auto w-screen">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full">
       <div className="relative w-full mb-4">
-        <span className="absolute top-3.5 left-0 flex items-center pl-3">
+        <span className="absolute top-3.5 left-3 flex items-center">
           <FaSearch className="text-gray-500" />
         </span>
         <input
@@ -42,7 +42,7 @@ const Search = () => {
       </div>
       <div className="space-y-4">
         {filteredSongs.map((song) => (
-          <div key={song._id}   className="flex items-center p-4 bg-white shadow-md rounded-lg">
+          <div key={song._id} className="flex items-center p-4 bg-white shadow-md rounded-lg">
             <img src={song.songPicturePath} className="h-16 w-16 object-cover rounded" alt={`${song.songTitle} cover`} />
             <div className="ml-4 flex-1">
               <div className="text-sm text-gray-500">{song.artist}</div>
