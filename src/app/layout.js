@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
             <div className="px-16 pt-10 pb-[10%] h-full w-full relative">
               {children}
               <footer className="mt-10 text-gray-400 font-medium border-t border-gray-600 py-5 px-2 h-auto">
-                <p>notariq</p>
+                <p>Hauzan Ariq Bakri</p>
                 <p>2024</p>
               </footer>
             </div>

@@ -99,7 +99,7 @@ const Playlists = ({ params }) => {
   }
 
   return (
-    <div className="container w-screen">
+    <div className="container mx-auto px-4">
       <h1 className="text-2xl font-bold mb-4">{playlist.playlistName}</h1>
 
       <button
@@ -143,13 +143,13 @@ const Playlists = ({ params }) => {
         </div>
       )}
 
-      <div className="space-y-4 mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         {songs.map((song) => (
-          <div key={song._id} className="flex items-center p-4 bg-white shadow-md rounded-lg cursor-pointer" onClick={() => playAudio(song.songPath, song)}>
-            <img src={song.songPicturePath} className="h-16 w-16 object-cover rounded" alt={`${song.songTitle} cover`} />
+          <div key={song._id} className="w-full flex items-center p-4 bg-white shadow-md rounded-lg cursor-pointer" onClick={() => playAudio(song.songPath, song)}>
+            <img src={song.songPicturePath} className="h-16 w-16 object-cover rounded flex-shrink-0" alt={`${song.songTitle} cover`} />
             <div className="ml-4 flex-1">
               <div className="text-sm text-gray-500">{song.artist}</div>
-              <div className="text-lg font-medium text-gray-500">{song.songTitle}</div>
+              <div className="text-lg font-medium text-gray-900">{song.songTitle}</div>
             </div>  
           </div>
         ))}
