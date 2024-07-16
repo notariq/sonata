@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image';
 import React from 'react';
 import { MdSkipPrevious, MdSkipNext } from "react-icons/md";
 import { useAudio } from '@/app/audioContext';
@@ -7,7 +8,6 @@ import { useAudio } from '@/app/audioContext';
 const Player = () => {
     const { audioSrc, currentSong, nextSong, previousSong } = useAudio();
 
-    // If there's no current song, use a placeholder
     const song = currentSong || {
         songPicturePath: '',
         songTitle: 'No song playing',
@@ -17,10 +17,11 @@ const Player = () => {
     return (
         <div className='h-[10%] bg-black flex justify-between items-center text-white px-4 p-5 border-t border-gray-800'>
             <div className='hidden lg:flex items-center gap-4'>
-                <img 
+                <Image 
                     className='w-12 h-12 bg-gray-100 border border-gray-800' 
                     src={song.songPicturePath} 
                     style={{ backgroundColor: 'gray' }}
+                    alt={song.artist}
                 />
                 <div>
                     <p>{song.songTitle}</p>

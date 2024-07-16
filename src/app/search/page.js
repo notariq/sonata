@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 
@@ -43,7 +44,7 @@ const Search = () => {
       <div className="space-y-4">
         {filteredSongs.map((song) => (
           <div key={song._id} className="flex items-center p-4 bg-white shadow-md rounded-lg">
-            <img src={song.songPicturePath} className="h-16 w-16 object-cover rounded" alt={`${song.songTitle} cover`} />
+            <Image src={song.songPicturePath} className="h-16 w-16 object-cover rounded" alt={`${song.songTitle} cover`} />
             <div className="ml-4 flex-1">
               <div className="text-sm text-gray-500">{song.artist}</div>
               <div className="text-lg font-medium text-gray-500">{song.songTitle}</div>
