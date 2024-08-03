@@ -1,13 +1,12 @@
 import { useState } from 'react';
 
-const CreatePlaylistModal = ({ onClose, onCreate, user }) => {
+const CreatePlaylistModal = ({ onClose, onCreate }) => {
   const [playlistName, setPlaylistName] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const newPlaylist = {
-      createdBy: user,
-      playlistName: playlistName,
+      playlistName: playlistName
     };
     onCreate(newPlaylist);
     setPlaylistName('');

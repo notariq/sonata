@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image';
-import { useAudio } from "@/app/audioContext";
+import { useAudio } from "@/contexts/audioContext";
 import React, { useState, useEffect } from "react";
 
 const Playlists = ({ params }) => {
@@ -147,7 +147,13 @@ const Playlists = ({ params }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         {songs.map((song) => (
           <div key={song._id} className="w-full flex items-center p-4 bg-white shadow-md rounded-lg cursor-pointer" onClick={() => playAudio(song.songPath, song)}>
-            <Image src={song.songPicturePath} className="h-16 w-16 object-cover rounded flex-shrink-0" alt={`${song.songTitle} cover`} />
+            <Image 
+              src={song.songPicturePath}
+              width={500}
+              height={300}
+              className="h-16 w-16 object-cover rounded flex-shrink-0"
+              alt={`${song.songTitle} cover`} 
+            />
             <div className="ml-4 flex-1">
               <div className="text-sm text-gray-500">{song.artist}</div>
               <div className="text-lg font-medium text-gray-900">{song.songTitle}</div>

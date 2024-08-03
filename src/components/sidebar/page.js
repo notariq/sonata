@@ -46,10 +46,10 @@ const Sidebar = () => {
             </Link>
           </li>
           <li className="mb-2">
-            <Link href="/user">
+            <Link href="/profile">
               <div className={`flex gap-x-4 items-center block p-2 hover:bg-gray-700 rounded`}>
                 <TbUser className='flex-shrink-0' />
-                <span className={`${!open && "hidden"} ml-4`}>User</span>
+                <span className={`${!open && "hidden"} ml-4`}>Profile</span>
               </div>
             </Link>
           </li>
