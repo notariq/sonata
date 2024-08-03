@@ -8,36 +8,30 @@ import { useAuth } from '@/contexts/authContext';
 
 const Playlists = () => {
   const { isAuthenticated, user } = useAuth();
-  
+
   const [playlists, setPlaylists] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
 
-  if (!isAuthenticated) {
-    return (
-      <div className="p-6 rounded-lg shadow-xl w-full flex items-center bg-gray-800 gap-6">
-        <p className="text-lg text-gray-300">You need to login first...</p>
-      </div>
-    );
-  }
-
   useEffect(() => {
-    const fetchPlaylists = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/playlist', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        });
-        setPlaylists(response.data); // Access response.data directly
-      } catch (error) {
-        console.error('Error fetching playlists:', error);
-        setError('Failed to fetch playlists'); // Set an error message for feedback
-      }
-    };
+    if (isAuthenticated) {
+      const fetchPlaylists = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/playlist', {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+          });
+          setPlaylists(response.data); // Access response.data directly
+        } catch (error) {
+          console.error('Error fetching playlists:', error);
+          setError('Failed to fetch playlists'); // Set an error message for feedback
+        }
+      };
 
-    fetchPlaylists();
-  }, []); 
+      fetchPlaylists();
+    }
+  }, [isAuthenticated]);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -54,7 +48,7 @@ const Playlists = () => {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       });
-  
+
       const createdPlaylist = response.data;
       setPlaylists((prevPlaylists) => [...prevPlaylists, createdPlaylist]);
       handleCloseModal();
@@ -77,6 +71,14 @@ const Playlists = () => {
       setError('Failed to delete playlist'); // Set an error message for feedback
     }
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="p-6 rounded-lg shadow-xl w-full flex items-center bg-gray-800 gap-6">
+        <p className="text-lg text-gray-300">You need to login first...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6">
