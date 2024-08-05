@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useAuth } from '@/contexts/authContext';
+import Link from 'next/link';
 
 export default function User() {
   const { isAuthenticated, user, logout } = useAuth();
@@ -9,10 +10,13 @@ export default function User() {
   if (!isAuthenticated) {
     return (
       <div className="p-6 rounded-lg shadow-xl w-full flex items-center bg-gray-800 gap-6">
-        <p className="text-lg text-gray-300">Loading or not authenticated...</p>
+      <p className="text-lg text-gray-300">
+          You need to 
+          <Link href={'/auth/login'} className='font-bold bg-gray-200 py-1 px-2 rounded-full m-2 text-black hover:bg-gray-500 hover:text-gray-800'> Log In </Link> 
+          first...</p>
       </div>
     );
-  }
+  };
 
   return (
     <div className="p-6 rounded-lg shadow-xl w-full flex items-center bg-gray-800 gap-6">

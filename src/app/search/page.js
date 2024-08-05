@@ -1,31 +1,37 @@
 'use client'
 
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
+import MusicCard from '@/components/musicCard/musicCard';
+import fetchSongs from './api';
 
 const Search = () => {
   const [query, setQuery] = useState('');
   const [songs, setSongs] = useState([]);
 
   useEffect(() => {
-    const fetchSongs = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/song');
-        const data = await response.json();
-        setSongs(data);
-      } catch (error) {
-        console.error('Error fetching songs:', error);
-      }
+    const getSongs = async () => {
+      const data = await fetchSongs();
+      setSongs(data);
     };
 
-    fetchSongs();
+    getSongs();
   }, []);
 
-  const filteredSongs = songs.filter(song =>
+  /*const filteredSongs = songs.filter(song =>
     song.songTitle.toLowerCase().includes(query.toLowerCase()) ||
     song.artist.toLowerCase().includes(query.toLowerCase())
-  );
+  );*/
+
+  const filteredSongs = [{
+    id: "66b0b7272bdfef8ce031e9b2",
+    title: "High and Dry",
+    artist: "Radiohead",
+    duration: 60,
+    audioPath: "test",
+    coverPath: "test",
+    album: "Ok Computer"
+  }]
 
   return (
     <div className="mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -43,20 +49,7 @@ const Search = () => {
       </div>
       <div className="space-y-4">
         {filteredSongs.map((song) => (
-          <div key={song._id} className="flex items-center p-4 bg-white shadow-md rounded-lg">
-            <Image 
-              width={300}
-              height={500}
-              src={song.songPicturePath} 
-              className="h-16 w-16 object-cover rounded" 
-              alt={`${song.songTitle} cover`} 
-            />
-            <div className="ml-4 flex-1">
-              <div className="text-sm text-gray-500">{song.artist}</div>
-              <div className="text-lg font-medium text-gray-500">{song.songTitle}</div>
-            </div>
-            <div className="text-sm text-gray-500">{song.songDuration}</div>
-          </div>
+          <MusicCard key={song.id} title={song.title} artist={song.artist} duration={song.duration} coverPath={song.coverPath}/>
         ))}
       </div>
     </div>

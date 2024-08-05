@@ -38,10 +38,10 @@ const Sidebar = () => {
             </Link>
           </li>
           <li className="mb-2">
-            <Link href="/playlists">
+            <Link href="/playlist">
               <div className={`flex gap-x-4 items-center block p-2 hover:bg-gray-700 rounded`}>
                 <TbPlaylist className='flex-shrink-0' />
-                <span className={`${!open && "hidden"} ml-4`}>Playlists</span>
+                <span className={`${!open && "hidden"} ml-4`}>Playlist</span>
               </div>
             </Link>
           </li>

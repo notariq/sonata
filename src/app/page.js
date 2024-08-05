@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import PlaylistCard from "@/components/playlistCard/playlistCard";
 import Header from '@/components/header';
+import axios from 'axios';
 
 export default function Page() {
   const [playlists, setPlaylists] = useState([]);
@@ -11,9 +12,8 @@ export default function Page() {
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/playlist/');
-        const data = await response.json();
-        setPlaylists(data);
+        const response = await axios.get('http://localhost:5000/api/playlist/');
+        setPlaylists(response.data);
       } catch (error) {
         console.error('Error fetching playlists:', error);
       }

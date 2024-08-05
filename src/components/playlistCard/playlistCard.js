@@ -11,7 +11,7 @@ const PlaylistCard = ({ playlist, onDelete, option}) => {
 
   return (
     <div className="relative max-w-sm rounded overflow-hidden shadow-lg bg-white cursor-pointer m-4 p-6 w-80">
-      <Link href={`./playlists/${playlist._id}`}>
+      <Link href={`playlist/${playlist._id}`}>
         <div className="w-full h-60 flex items-center justify-center text-8xl">
           <p>🎼</p>
         </div>
