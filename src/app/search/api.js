@@ -1,15 +1,14 @@
-const fetchSongs = async () => {
-    try {
-      const response = await fetch('http://localhost:4000/api/music/66b0b7272bdfef8ce031e9b2');
+const fetchSongs = async (query) => {
+  try {
+      const response = await fetch(`http://localhost:4000/api/music?query=${encodeURIComponent(query)}`);
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+          throw new Error('Network response was not ok');
       }
       return await response.json();
-    } catch (error) {
+  } catch (error) {
       console.error('Error fetching songs:', error);
       return [];
-    }
-  };
-  
-  export default fetchSongs;
-  
+  }
+};
+
+export default fetchSongs;

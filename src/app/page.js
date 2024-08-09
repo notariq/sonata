@@ -12,7 +12,7 @@ export default function Page() {
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/playlist/');
+        const response = await axios.get('http://localhost:5000/api/playlist/all');
         setPlaylists(response.data);
       } catch (error) {
         console.error('Error fetching playlists:', error);

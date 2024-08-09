@@ -3,20 +3,22 @@
 import Image from 'next/image';
 import { useAudio } from '@/contexts/audioContext';
 
-const MusicCard = ({ title, artist, duration, coverPath }) => {
+const MusicCard = ({ title, artist, duration, coverPath, id }) => {
     const minutes = Math.floor(duration / 60);
     const remainingSeconds = duration % 60;
     const songDuration = `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 
+    const { playAudio }  = useAudio()
+
     return (
     <div
         className="flex items-center p-4 bg-white shadow-md rounded-lg cursor-pointer"
-        onClick={'http://localhost:4000/api/music'}
+        onClick={() => playAudio(id)}
     >
         <Image 
         width={300}
         height={500}
-        src={`/${coverPath}`} 
+        src={`http://localhost:4000/api/music/stream/image/${coverPath}`}
         className="h-16 w-16 object-cover rounded" 
         alt={"cover"} 
         />

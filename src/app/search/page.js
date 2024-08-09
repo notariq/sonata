@@ -11,27 +11,12 @@ const Search = () => {
 
   useEffect(() => {
     const getSongs = async () => {
-      const data = await fetchSongs();
+      const data = await fetchSongs(query);
       setSongs(data);
     };
 
     getSongs();
-  }, []);
-
-  /*const filteredSongs = songs.filter(song =>
-    song.songTitle.toLowerCase().includes(query.toLowerCase()) ||
-    song.artist.toLowerCase().includes(query.toLowerCase())
-  );*/
-
-  const filteredSongs = [{
-    id: "66b0b7272bdfef8ce031e9b2",
-    title: "High and Dry",
-    artist: "Radiohead",
-    duration: 60,
-    audioPath: "test",
-    coverPath: "test",
-    album: "Ok Computer"
-  }]
+  }, [query]);
 
   return (
     <div className="mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -48,8 +33,15 @@ const Search = () => {
         />
       </div>
       <div className="space-y-4">
-        {filteredSongs.map((song) => (
-          <MusicCard key={song.id} title={song.title} artist={song.artist} duration={song.duration} coverPath={song.coverPath}/>
+        {songs.map((song) => (
+          <MusicCard
+            key={song._id}
+            title={song.title}
+            artist={song.artist}
+            duration={song.duration}
+            coverPath={song.coverPath}
+            id={song._id}
+          />
         ))}
       </div>
     </div>

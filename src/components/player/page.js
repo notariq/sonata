@@ -6,7 +6,7 @@ import { MdSkipPrevious, MdSkipNext } from "react-icons/md";
 import { useAudio } from '@/contexts/audioContext';
 
 const Player = () => {
-    const { audioSrc, currentSong, nextSong, previousSong } = useAudio();
+    const { audioSrc, imageSrc, currentSong, nextSong, previousSong } = useAudio();
 
     const song = currentSong;
 
@@ -20,12 +20,12 @@ const Player = () => {
                 className='w-12 h-12 bg-gray-100 border border-gray-800' 
                 width={500}
                 height={300}
-                src={song.songPicturePath} 
+                src={imageSrc} 
                 style={{ backgroundColor: 'gray' }}
-                alt={song.artist}
+                alt={"cover"}
             />
             <div>
-                <p>{song.songTitle}</p>
+                <p>{song.title}</p>
                 <p>{song.artist}</p>
             </div>
             </div>

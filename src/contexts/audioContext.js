@@ -9,14 +9,16 @@ const API_URL = "http://localhost:4000/api/music";
 
 export const AudioProvider = ({ children }) => {
     const [audioSrc, setAudioSrc] = useState(null);
+    const [imageSrc, setImageSrc] = useState(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentSong, setCurrentSong] = useState(null);
 
-    const playAudio = async () => {
+    const playAudio = async (id) => {
         try{
-            const response = await axios.get(API_URL)
-            
-            setAudioSrc(`${API_URL}/${response.data.audioPath}`);
+            const response = await axios.get(`${API_URL}/${id}`)
+
+            setAudioSrc(`http://localhost:4000/api/music/stream/audio/${response.data.audioPath}`);
+            setImageSrc(`http://localhost:4000/api/music/stream/image/${response.data.coverPath}`);
             setCurrentSong(response.data);
             setIsPlaying(true);
         } catch(error) {
@@ -33,6 +35,7 @@ export const AudioProvider = ({ children }) => {
     return (
         <AudioContext.Provider value={{
             audioSrc,
+            imageSrc,
             isPlaying,
             currentSong,
             playAudio,
