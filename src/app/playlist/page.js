@@ -61,12 +61,12 @@ const Playlists = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">{user.username} Playlists</h1>
-      <button onClick={handleOpenModal} className="bg-blue-500 text-white px-4 py-2 rounded mb-4 hover:bg-blue-700">
+      <h1 className="text-4xl font-bold mb-4 border-b border-gray-600 pb-4">{user.username} Playlists</h1>
+      <button onClick={handleOpenModal} className="bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 text-white px-4 py-2 rounded mb-4 ">
         + New Playlist
       </button>
       {error && <p className="text-red-500">{error}</p>}
-      <div className="flex flex-wrap gap-4 -mx-4">
+      <div className="grid grid-cols-4 gap-4">
         {playlists.map((playlist) => (
           <PlaylistCard key={playlist._id} playlist={playlist} onDelete={handleDeletePlaylist} />
         ))}

@@ -45,7 +45,6 @@ export const AuthProvider = ({ children }) => {
         logout();
       }
     } else {
-      // Token not found
       setAuthToken(null);
       setIsAuthenticated(false);
     }
@@ -73,11 +72,45 @@ export const AuthProvider = ({ children }) => {
       await checkToken();
       window.location.reload();
     } catch (error) {
-      console.error('Login failed', error);
+      throw error;
     } finally {
       setLoading(false);
     }
   };
+
+  const register = async (username, email, password) => {
+    setLoading(true); // Set loading to true immediately to indicate the process has started
+  
+    try {
+      const response = await axios.post(`${API_URL}/register`, { username, email, password });
+  
+      if (response.status === 201) {
+        // Registration successful
+        router.push('/auth/login');
+      } else {
+        // Handle unexpected status codes
+        throw new Error('Registration failed. Please try again.');
+      }
+    } catch (error) {
+      // Enhanced error handling
+      if (error.response) {
+        // The request was made, and the server responded with a status code that falls out of the range of 2xx
+        console.error('Server Error:', error.response.data.message || error.response.statusText);
+        alert(`Registration failed: ${error.response.data.message || 'Please check your input and try again.'}`);
+      } else if (error.request) {
+        // The request was made, but no response was received
+        console.error('Network Error:', error.message);
+        alert('Network error: Please check your internet connection and try again.');
+      } else {
+        // Something else happened in making the request that triggered an error
+        console.error('Error:', error.message);
+        alert('An unexpected error occurred. Please try again.');
+      }
+    } finally {
+      setLoading(false); // Ensure loading is set to false after process completion
+    }
+  };
+  
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -95,6 +128,7 @@ export const AuthProvider = ({ children }) => {
     checkToken,
     login,
     logout,
+    register,
     loading
   };
 

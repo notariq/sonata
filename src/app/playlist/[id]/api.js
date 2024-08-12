@@ -11,9 +11,18 @@ export const fetchPlaylistId = async (id) => {
     }
 };
 
-export const fetchBatchMusic = async (musicId) => {
+export const addMusic = async (playlistId, musicId) => {
     try {
-        const response = await axios.post(`${API_URL}/${id}/`, (musicId));
+        const response = await axios.post(`${API_URL}/${playlistId}/add-music`, {musicId: musicId});
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const removeMusic = async (playlistId, musicId) => {
+    try {
+        const response = await axios.post(`${API_URL}/${playlistId}/remove-music`, {musicId: musicId});
         return response.data;
     } catch (error) {
         throw error;

@@ -11,6 +11,11 @@ const Search = () => {
 
   useEffect(() => {
     const getSongs = async () => {
+      if (query.trim() === '') {
+        setSongs([]);
+        return;
+      }
+
       const data = await fetchSongs(query);
       setSongs(data);
     };
@@ -32,15 +37,16 @@ const Search = () => {
           placeholder="Search by title or artist"
         />
       </div>
+      {query === '' && <p className='text-gray-300 text-center py-6'>Search Music...</p>}
       <div className="space-y-4">
-        {songs.map((song) => (
+        {songs.length > 0 && songs.map((song) => (
           <MusicCard
-            key={song._id}
+            key={song.id}
             title={song.title}
             artist={song.artist}
             duration={song.duration}
             coverPath={song.coverPath}
-            id={song._id}
+            id={song.id}
           />
         ))}
       </div>

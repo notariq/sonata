@@ -12,7 +12,7 @@ const MusicCard = ({ title, artist, duration, coverPath, id }) => {
 
     return (
     <div
-        className="flex items-center p-4 bg-white shadow-md rounded-lg cursor-pointer"
+        className="flex items-center p-4 bg-white shadow-md rounded-lg cursor-pointer w-full pr-6"
         onClick={() => playAudio(id)}
     >
         <Image 

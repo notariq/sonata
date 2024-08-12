@@ -11,7 +11,7 @@ export const metadata = {
   title: "SONATA",
   description: "Music Website by notariq",
   icons: {
-    icon:'/icon-dark.svg'
+    icon:'/vinyl2.png'
   }
 };
 

@@ -12,7 +12,7 @@ export default function Page() {
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/playlist/all');
+        const response = await axios.get('http://localhost:8080/playlist/all');
         setPlaylists(response.data);
       } catch (error) {
         console.error('Error fetching playlists:', error);
@@ -25,16 +25,17 @@ export default function Page() {
   const albumPlaylist = playlists.filter(playlist => playlist.playlistName.startsWith('Album'));
 
   return (
-    <div className="">
+    <div className="container">
       <Header />
-
-      <h1 className="text-2xl font-bold mb-4">Daily Mixes</h1>
-      <div className="flex flex-wrap -mx-4 mb-10">
-        {dailyMixPlaylist.map((playlist) => (
-          <PlaylistCard key={playlist._id} playlist={playlist} option={"hidden"} />
-        ))}
+      <h1 className="text-4xl font-bold mb-2 pb-3 border-b border-gray-600">Daily Mixes</h1>
+      <div className='horizontal-scroll mb-8'>
+        <div className="flex max-w-max">
+          {dailyMixPlaylist.map((playlist) => (
+            <PlaylistCard key={playlist._id} playlist={playlist} option={"hidden"} />
+          ))}
+        </div>
       </div>
-      <h1 className="text-2xl font-bold mb-4">New Release Album</h1>
+      <h1 className="text-4xl font-bold mb-2 pb-3 border-b border-gray-600">For You</h1>
       <div className="flex flex-wrap -mx-4">
         {albumPlaylist.map((playlist) => (
           <PlaylistCard key={playlist._id} playlist={playlist} option={"hidden"} />
