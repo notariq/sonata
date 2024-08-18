@@ -4,11 +4,9 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/api/auth';
+const AUTH_URL = 'http://localhost:8080/auth';
 
 const AuthContext = createContext();
-
-
 
 export const AuthProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(null);
@@ -24,7 +22,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       try {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        const response = await axios.get(API_URL);
+        const response = await axios.get(AUTH_URL);
 
         const userData = {
           id: response.data.id,
@@ -57,7 +55,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post(`${API_URL}/login`, { email, password });
+      const response = await axios.post(`${AUTH_URL}/login`, { email, password });
       const token = response.data.token;
 
       localStorage.setItem('token', token);
@@ -79,35 +77,29 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (username, email, password) => {
-    setLoading(true); // Set loading to true immediately to indicate the process has started
+    setLoading(true);
   
     try {
-      const response = await axios.post(`${API_URL}/register`, { username, email, password });
+      const response = await axios.post(`${AUTH_URL}/register`, { username, email, password });
   
       if (response.status === 201) {
-        // Registration successful
         router.push('/auth/login');
       } else {
-        // Handle unexpected status codes
         throw new Error('Registration failed. Please try again.');
       }
     } catch (error) {
-      // Enhanced error handling
       if (error.response) {
-        // The request was made, and the server responded with a status code that falls out of the range of 2xx
         console.error('Server Error:', error.response.data.message || error.response.statusText);
         alert(`Registration failed: ${error.response.data.message || 'Please check your input and try again.'}`);
       } else if (error.request) {
-        // The request was made, but no response was received
         console.error('Network Error:', error.message);
         alert('Network error: Please check your internet connection and try again.');
       } else {
-        // Something else happened in making the request that triggered an error
         console.error('Error:', error.message);
         alert('An unexpected error occurred. Please try again.');
       }
     } finally {
-      setLoading(false); // Ensure loading is set to false after process completion
+      setLoading(false);
     }
   };
   

@@ -1,6 +1,8 @@
+const MUSIC_URL = "http://localhost:8080/music";
+
 const fetchSongs = async (query) => {
   try {
-      const response = await fetch(`http://localhost:4000/api/music?query=${encodeURIComponent(query)}`);
+      const response = await fetch(`${MUSIC_URL}?query=${encodeURIComponent(query)}`);
       if (!response.ok) {
           throw new Error('Network response was not ok');
       }

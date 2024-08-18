@@ -7,22 +7,24 @@ import { useAuth } from "@/contexts/authContext";
 import { removeMusic } from "./api";
 import axios from "axios";
 
+const PLAYLIST_URL = "http://localhost:8080/playlist"
+const MUSIC_BATCH_URL = "http://localhost:8080/music/batch"
+
 const Playlists = ({ params }) => {
   const [songs, setSongs] = useState([]);
   const [playlistData, setPlaylistData] = useState({title: '', user: ''});
-
   const [error, setError] = useState(null);  
   const [loading, setLoading] = useState(true);
-
   const { isAuthenticated, user } = useAuth();
+
 
   const fetchSongs = async () => {
     try {
       setLoading(true);
-      const playlistResponse = await axios.get(`http://localhost:5000/api/playlist/${params.id}`);
+      const playlistResponse = await axios.get(`${PLAYLIST_URL}/${params.id}`);
       setPlaylistData({title: playlistResponse.data.playlistName, user: playlistResponse.data.createdBy});
       
-      const songsResponse = await axios.post(`http://localhost:4000/api/music/batch`, {id: playlistResponse.data.songs});
+      const songsResponse = await axios.post(MUSIC_BATCH_URL, {id: playlistResponse.data.songs});
       setSongs(songsResponse.data);
       setLoading(false);
     } catch (error) {
@@ -67,26 +69,33 @@ const Playlists = ({ params }) => {
         <p className="text-gray-300 mb-4">{playlistData.user}</p>
       </div>
       <div className="space-y-4">
-      {songs.map((song) => (
-        <div key={song.id} className="relative flex items-center">
-          <MusicCard
-            title={song.title}
-            artist={song.artist}
-            duration={song.duration}
-            coverPath={song.coverPath}
-            id={song.id}
-          />
-          {isAuthenticated && user.username === playlistData.user && (
-            <button
-              onClick={() => onDelete(params.id, song.id)}
-              className="absolute right-0 bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-800 transition duration-300 border border-white"
-              style={{ transform: 'translateX(50%)' }}
-            >
-              &times;
-            </button>
-          )}
-        </div>
-      ))}
+        {songs.length === 0 ? (
+          <div className="flex items-center justify-center py-14">
+            <p className="text-gray-300 text-center text-sm">No Musics Yet...</p>
+          </div>
+        ) : (
+          songs.map((song) => (
+            <div key={song.id} className="relative flex items-center">
+              <MusicCard
+                title={song.title}
+                artist={song.artist}
+                duration={song.duration}
+                coverPath={song.coverPath}
+                id={song.id}
+                musicList={songs}
+              />
+              {isAuthenticated && user.username === playlistData.user && (
+                <button
+                  onClick={() => onDelete(params.id, song.id)}
+                  className="absolute right-0 bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-800 transition duration-300 border border-white"
+                  style={{ transform: 'translateX(50%)' }}
+                >
+                  &times;
+                </button>
+              )}
+            </div>
+          ))
+        )}
       </div>
 
       {isAuthenticated && user.username === playlistData.user && (

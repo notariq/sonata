@@ -16,7 +16,7 @@ export default function Header() {
   };
 
   return (
-    <div className='py-3 flex justify-end'>
+    <div className='container py-3 flex justify-end'>
       <button
         onClick={handleClick}
         className={`px-4 py-2 rounded-full font-bold text-white ${isAuthenticated ? 'bg-black' : 'bg-gray-600'} flex items-center`}

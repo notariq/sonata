@@ -1,15 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://localhost:5000/api/playlist'
-
-export const fetchPlaylistId = async (id) => {
-    try {
-        const response = await axios.get(process.env.API_URL || `${API_URL}/${id}`);   
-        return response.data.songs;
-    } catch (error) {
-        throw error;
-    }
-};
+const API_URL = 'http://localhost:8080/playlist'
 
 export const addMusic = async (playlistId, musicId) => {
     try {

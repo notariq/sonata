@@ -47,6 +47,7 @@ const Search = () => {
             duration={song.duration}
             coverPath={song.coverPath}
             id={song.id}
+            musicList={[]}
           />
         ))}
       </div>
